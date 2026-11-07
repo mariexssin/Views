@@ -1,0 +1,70 @@
+@{
+    ViewData["Title"] = "Shopping Cart";
+
+    var supermarkets = new List<SelectListItem>
+    {
+        new SelectListItem { Text = "WellMart", Value = "WellMart" },
+        new SelectListItem { Text = "Silpo", Value = "Silpo" },
+        new SelectListItem { Text = "ATB", Value = "ATB" },
+        new SelectListItem { Text = "Furshet", Value = "Furshet" },
+        new SelectListItem { Text = "Metro", Value = "Metro" }
+    };
+
+    var products = new List<SelectListItem>
+    {
+        new SelectListItem { Text = "Bread", Value = "Bread" },
+        new SelectListItem { Text = "Milk", Value = "Milk" },
+        new SelectListItem { Text = "Cheese", Value = "Cheese" },
+        new SelectListItem { Text = "Sausage", Value = "Sausage" }
+    };
+
+    var dates = new List<string>
+    {
+        DateTime.Now.ToString("M/d/yyyy 12:00:00 tt"),
+        DateTime.Now.AddDays(1).ToString("M/d/yyyy 12:00:00 tt"),
+        DateTime.Now.AddDays(2).ToString("M/d/yyyy 12:00:00 tt")
+    };
+}
+
+<h1>Your shopping cart</h1>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success mt-3">
+        @ViewBag.Message
+    </div>
+}
+else
+{
+    <form asp-action="ShoppingCart" method="post" class="w-50 mt-3">
+        <div class="mb-3">
+            <label class="form-label">Input your fullname:</label>
+            @Html.TextBox("fullname", null, new { @class = "form-control" })
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Input your address:</label>
+            @Html.TextBox("address", null, new { @class = "form-control" })
+        </div>
+
+        <div class="mb-3">
+            @Html.DropDownList("supermarket", supermarkets, new { @class = "form-select" })
+        </div>
+
+        <div class="mb-3">
+            @foreach (var date in dates)
+            {
+                <div class="form-check">
+                    @Html.RadioButton("shippingDate", date, date == dates[0], new { @class = "form-check-input", id = date })
+                    <label class="form-check-label" for="@date">@date</label>
+                </div>
+            }
+        </div>
+
+        <div class="mb-3">
+            @Html.ListBox("selectedProducts", products, new { @class = "form-control", size = 4 })
+        </div>
+
+        <button type="submit" class="btn btn-secondary">Send</button>
+    </form>
+}

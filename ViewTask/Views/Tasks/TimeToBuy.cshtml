@@ -1,0 +1,6 @@
+@inject ViewTask.Services.ITimeService TimeService
+
+<div class="border border-danger p-3 mt-3 w-50">
+    <h4>It's time to shopping!</h4>
+    <p>@TimeService.GetTimeForTomorrow()</p>
+</div>
